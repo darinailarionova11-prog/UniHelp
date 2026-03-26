@@ -1,30 +1,46 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Add</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Problem</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<div class="navbar">
-  <h2>Add Problem</h2>
-  <span onclick="toggleTheme()">🌗</span>
-</div>
+  <div class="navbar">
+    <h2>Add Problem</h2>
+    <button class="theme-toggle" onclick="toggleTheme()">🌗</button>
+  </div>
 
-<div class="card glass">
-  <input id="title" placeholder="Title">
-  <textarea id="desc" placeholder="Description"></textarea>
-  <input id="img" placeholder="Image URL">
+  <div class="card glass form-container">
 
-  <button onclick="useMyLocation()">📍 Use My Location</button>
+    <div class="form-group">
+      <label for="title">Title</label>
+      <input id="title" placeholder="Enter problem title">
+    </div>
 
-  <p id="locText"></p>
+    <div class="form-group">
+      <label for="desc">Description</label>
+      <textarea id="desc" placeholder="Describe the problem"></textarea>
+    </div>
 
-  <button onclick="saveProblem()">Publish</button>
-</div>
+    <div class="form-group">
+      <label for="img">Image URL</label>
+      <input id="img" placeholder="Optional image link">
+    </div>
 
-<script src="script.js"></script>
+    <div class="button-group">
+      <button class="secondary" onclick="useMyLocation()">📍 Use My Location</button>
+      <button class="primary" onclick="saveProblem()">Publish</button>
+    </div>
+
+    <p id="locText" class="location-text"></p>
+
+  </div>
+
+  <script src="script.js"></script>
+
 </body>
 </html>
