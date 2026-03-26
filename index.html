@@ -2,28 +2,26 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>CareMap</title>
+<title>UniHelp</title>
 <link rel="stylesheet" href="style.css">
 </head>
 
 <body class="center">
 
 <div class="glass card">
-  <h1>🌍 CareMap</h1>
+  <h1>UniHelp 🦄</h1>
 
-  <p>Don’t be a horse, be a unicorn, help people out 🦄</p>
-
-  <p class="warning">
-  ⚠️ Моля не публикувайте сериозни проблеми, които изискват помощта на 112
-  </p>
+  <p>"Don’t be a horse, be a unicorn, help people out 🦄"</p>
 
   <input id="user" placeholder="Username">
   <input id="pass" type="password" placeholder="Password">
 
   <button onclick="login()">Login</button>
   <button onclick="register()">Sign Up</button>
+   <p class="warning">
+  ⚠️ Моля не публикувайте сериозни проблеми, които изискват помощта на 112!!!
+  </p>
 </div>
-
 <script>
 let users = JSON.parse(localStorage.getItem("users")) || {};
 
