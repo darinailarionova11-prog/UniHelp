@@ -1,4 +1,7 @@
 let problem = JSON.parse(localStorage.getItem("problems")) || [];
+let saved = JSON.parse(localStorage.getItem("saved")) || [];
+let userLat, userLng;
+
 
 /* THEME */
 function toggleTheme(){
@@ -73,6 +76,9 @@ function render(data){
       <h3>${p.title}</h3>
       <p>${p.desc}</p>
       <button onclick="deleteProblem(${i})">🗑️</button>
+      <button onclick="openDonate()">💰</button>
+        <button onclick="openVolunteer()">🤝</button>
+        <button onclick="saveItem(${i})">⭐</button>
       </div>
     </div>
     `;
@@ -144,6 +150,14 @@ if (document.getElementById("username")) {
   navigator.geolocation.getCurrentPosition(pos => {
     let lat = pos.coords.latitude.toFixed(3);
     let lng = pos.coords.longitude.toFixed(3);
+
+    function getLocation() {
+  navigator.geolocation.getCurrentPosition(pos => {
+    userLat = pos.coords.latitude;
+    userLng = pos.coords.longitude;
+    alert("Location added!");
+  });
+}
 
     document.getElementById("locationText").innerText =
       "📍 " + lat + ", " + lng;
