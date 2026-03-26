@@ -2,45 +2,78 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Map</title>
+<title>CareMap</title>
 
+<!-- Leaflet CSS -->
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+
+<!-- Your custom CSS -->
 <link rel="stylesheet" href="style.css">
+
 </head>
-
 <body>
-
-<div class="navbar">
-  <h2>🌍 CareMap</h2>
-  <div>
-    <span onclick="toggleTheme()">🌗</span>
-    <a href="explore.html">Explore</a>
-    <a href="profil.html">👤</a>
-  </div>
-</div>
-
-<div id="map"></div>
-<button class="fab" onclick="location.href='add.html'">＋</button>
-
-<div id="notif" class="notif hidden"></div>
-
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-<script src="script.js"></script>
 
 <div class="app">
 
+  <!-- SIDEBAR -->
   <div class="sidebar">
-    <button onclick="location.href='map.html'">🗺️ Map</button>
+    <h2>🌍 CareMap</h2>
+    <button onclick="location.href='map.html'" class="active">🗺️ Map</button>
     <button onclick="location.href='explore.html'">🔍 Explore</button>
-    <button onclick="location.href='add.html'">➕ Add</button>
-    <button onclick="location.href='profile.html'">👤 Profile</button>
+    <button onclick="location.href='add.html'">➕ Add Problem</button>
+    <button onclick="location.href='profil.html'">👤 Profile</button>
+    <span onclick="toggleTheme()" style="margin-top:20px;cursor:pointer;">🌗 Toggle Theme</span>
   </div>
 
+  <!-- MAIN -->
   <div class="main">
     <div id="map"></div>
+    <div id="notif" class="notif hidden"></div>
   </div>
 
 </div>
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<!-- Your JS -->
+<script src="script.js"></script>
+
+<script>
+  // MAP SETUP
+  let map = L.map('map').setView([42.7, 25.4], 7);
+
+  // TILE LAYER
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+  }).addTo(map);
+
+  // FIX FOR FLEXBOX LAYOUT
+  setTimeout(()=>{ map.invalidateSize(); }, 200);
+
+  // SHOW PROBLEMS ON MAP
+  let problems = JSON.parse(localStorage.getItem("problems")) || [];
+  problems.forEach(p => {
+      if(p.lat && p.lng){
+          L.marker([p.lat, p.lng]).addTo(map)
+          .bindPopup(`<b>${p.title}</b><br>${p.desc}`);
+      }
+  });
+
+  // SHOW USER LOCATION
+  if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(pos => {
+          let lat = pos.coords.latitude;
+          let lng = pos.coords.longitude;
+          L.circle([lat, lng], {
+              radius: 50,
+              color: 'blue',
+              fillColor: 'blue',
+              fillOpacity: 0.3
+          }).addTo(map).bindPopup("You are here").openPopup();
+      });
+  }
+</script>
 
 </body>
 </html>
