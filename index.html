@@ -2,14 +2,14 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>UniHelp</title>
+<title>CareMap</title>
 <link rel="stylesheet" href="style.css">
 </head>
 
 <body class="center">
 
 <div class="glass card">
-  <h1>Unihelp</h1>
+  <h1>🌍 CareMap</h1>
 
   <p>Don’t be a horse, be a unicorn, help people out 🦄</p>
 
@@ -18,15 +18,41 @@
   </p>
 
   <input id="user" placeholder="Username">
-  <button onclick="login()">Login / Sign Up</button>
+  <input id="pass" type="password" placeholder="Password">
+
+  <button onclick="login()">Login</button>
+  <button onclick="register()">Sign Up</button>
 </div>
 
 <script>
+let users = JSON.parse(localStorage.getItem("users")) || {};
+
+/* REGISTER */
+function register(){
+  let u = user.value;
+  let p = pass.value;
+
+  if(!u || !p) return alert("Fill all fields!");
+
+  if(users[u]) return alert("User already exists!");
+
+  users[u] = p;
+  localStorage.setItem("users", JSON.stringify(users));
+
+  alert("Account created!");
+}
+
+/* LOGIN */
 function login(){
-  let u=document.getElementById("user").value;
-  if(!u) return alert("Enter username!");
-  localStorage.setItem("user",u);
-  location.href="map.html";
+  let u = user.value;
+  let p = pass.value;
+
+  if(users[u] && users[u] === p){
+    localStorage.setItem("user", u);
+    location.href = "map.html";
+  } else {
+    alert("Wrong username or password!");
+  }
 }
 </script>
 

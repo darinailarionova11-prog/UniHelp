@@ -116,3 +116,88 @@ button{
 }
 
 .hidden{display:none;}
+
+.app {
+  display: flex;
+}
+
+/* SIDEBAR */
+.sidebar {
+  width: 220px;
+  height: 100vh;
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(10px);
+  padding: 20px;
+}
+
+.sidebar h2 {
+  margin-bottom: 20px;
+}
+
+.sidebar button {
+  width: 100%;
+  margin: 10px 0;
+  padding: 12px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.1);
+}
+
+.sidebar button:hover {
+  background: #43a047;
+}
+
+.sidebar .active {
+  background: #2e7d32;
+}
+
+/* MAIN */
+.main {
+  flex: 1;
+  padding: 30px;
+}
+
+/* PROFILE PIC */
+.profile-pic {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
+  border: 3px solid #66bb6a;
+  margin-bottom: 10px;
+}
+
+/* PROFILE */
+.profile {
+  text-align: center;
+  max-width: 400px;
+}
+
+/* STATS */
+.stats {
+  display: flex;
+  justify-content: space-around;
+  margin: 20px 0;
+}
+
+.stats div {
+  background: rgba(255,255,255,0.1);
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.app {
+  display: flex;
+  height: 100vh; /* МНОГО ВАЖНО */
+}
+
+.main {
+  flex: 1;
+  height: 100vh;
+  overflow: hidden;
+}
+
+#map {
+  height: 100%;
+  width: 100%;
+}
