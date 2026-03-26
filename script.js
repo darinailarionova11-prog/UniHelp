@@ -1,4 +1,4 @@
-let problems = JSON.parse(localStorage.getItem("problems")) || [];
+let problem = JSON.parse(localStorage.getItem("problems")) || [];
 
 /* THEME */
 function toggleTheme(){
@@ -39,12 +39,6 @@ function saveProblem(){
   location.href="explore.html";
 }
 
-/* MAP */
-if(document.getElementById("map")){
-  let map=L.map('map').setView([42.7,25.4],7);
-
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-
   /* USER LIVE LOCATION */
   navigator.geolocation.watchPosition(pos=>{
     let lat=pos.coords.latitude;
@@ -63,7 +57,7 @@ if(document.getElementById("map")){
       .bindPopup(`<b>${p.title}</b><br>${p.desc}`);
     }
   });
-}
+
 
 /* RENDER */
 function render(data){
@@ -159,9 +153,6 @@ if (document.getElementById("username")) {
   let myProblems = problems.filter(p => p.user === user);
   document.getElementById("myCount").innerText = myProblems.length;
 
-  let likes = problems.reduce((sum,p)=>sum+(p.likes||0),0);
-  document.getElementById("likesCount").innerText = likes;
-
   document.getElementById("savedCount").innerText = saved.length;
 }
 
@@ -181,11 +172,11 @@ function uploadImage(event) {
 
 let user = localStorage.getItem("user");
 
-let map = L.map('map').setView([42.7,25.4],7);
+let problems = JSON.parse(localStorage.getItem("problems")) || [];
 
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png')
-.addTo(map);
-
-setTimeout(() => {
-  map.invalidateSize();
-}, 200);
+// Dark/light toggle
+function toggleTheme() {
+    document.body.classList.toggle("light");
+    localStorage.setItem("theme", document.body.classList.contains("light"));
+}
+if(localStorage.getItem("theme")==="true") document.body.classList.add("light");
