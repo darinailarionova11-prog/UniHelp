@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Map</title>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="navbar">
+  <h2>🌍 CareMap</h2>
+  <div>
+    <span onclick="toggleTheme()">🌗</span>
+    <a href="explore.html">Explore</a>
+    <a href="profile.html">👤</a>
+  </div>
+</div>
+
+<div id="map"></div>
+<button class="fab" onclick="location.href='add.html'">＋</button>
+
+<div id="notif" class="notif hidden"></div>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="script.js"></script>
+
+</body>
+</html>

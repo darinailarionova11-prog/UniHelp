@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Add</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="navbar">
+  <h2>Add Problem</h2>
+  <span onclick="toggleTheme()">🌗</span>
+</div>
+
+<div class="card glass">
+  <input id="title" placeholder="Title">
+  <textarea id="desc" placeholder="Description"></textarea>
+  <input id="img" placeholder="Image URL">
+
+  <button onclick="useMyLocation()">📍 Use My Location</button>
+
+  <p id="locText"></p>
+
+  <button onclick="saveProblem()">Publish</button>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
