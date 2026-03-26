@@ -179,7 +179,7 @@ function uploadImage(event) {
   reader.readAsDataURL(file);
 }
 
-user: localStorage.getItem("user")
+let user = localStorage.getItem("user");
 
 let map = L.map('map').setView([42.7,25.4],7);
 
