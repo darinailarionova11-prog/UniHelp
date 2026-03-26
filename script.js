@@ -118,3 +118,74 @@ function logout(){
   localStorage.removeItem("user");
   location.href="index.html";
 }
+
+/* AUTH CHECK */
+let currentUser = localStorage.getItem("user");
+
+if(!currentUser && !location.href.includes("index.html")){
+  location.href = "index.html";
+}
+
+if(document.getElementById("username")){
+  let u = localStorage.getItem("user");
+  document.getElementById("username").innerText = u;
+
+  document.getElementById("stats").innerText =
+    "Problems created: " + problems.length;
+}
+
+/* PROFILE SYSTEM */
+if (document.getElementById("username")) {
+
+  let user = localStorage.getItem("user");
+  let saved = JSON.parse(localStorage.getItem("saved")) || [];
+
+  document.getElementById("username").innerText = user;
+
+  /* LOAD PROFILE IMAGE */
+  let img = localStorage.getItem("profileImg");
+  if (img) document.getElementById("profileImg").src = img;
+
+  /* LOCATION */
+  navigator.geolocation.getCurrentPosition(pos => {
+    let lat = pos.coords.latitude.toFixed(3);
+    let lng = pos.coords.longitude.toFixed(3);
+
+    document.getElementById("locationText").innerText =
+      "📍 " + lat + ", " + lng;
+  });
+
+  /* STATS */
+  let myProblems = problems.filter(p => p.user === user);
+  document.getElementById("myCount").innerText = myProblems.length;
+
+  let likes = problems.reduce((sum,p)=>sum+(p.likes||0),0);
+  document.getElementById("likesCount").innerText = likes;
+
+  document.getElementById("savedCount").innerText = saved.length;
+}
+
+/* UPLOAD PROFILE IMAGE */
+function uploadImage(event) {
+  let file = event.target.files[0];
+  let reader = new FileReader();
+
+  reader.onload = function(e) {
+    let img = e.target.result;
+    document.getElementById("profileImg").src = img;
+    localStorage.setItem("profileImg", img);
+  };
+
+  reader.readAsDataURL(file);
+}
+
+user: localStorage.getItem("user")
+
+let map = L.map('map').setView([42.7,25.4],7);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png')
+.addTo(map);
+
+setTimeout(() => {
+  map.invalidateSize();
+}, 200);
