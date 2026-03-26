@@ -170,7 +170,7 @@ function uploadImage(event) {
   reader.readAsDataURL(file);
 }
 
-user: localStorage.getItem("user")
+let user = localStorage.getItem("user");
 
 let problems = JSON.parse(localStorage.getItem("problems")) || [];
 
