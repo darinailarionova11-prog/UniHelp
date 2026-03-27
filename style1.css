@@ -4,7 +4,7 @@ body{
   font-family: Arial, sans-serif;
   margin: 0;
   background:linear-gradient(135deg,#1b5e20,#0d47a1);
-  color:black;
+  color:white;
   transition:0.3s;
 }
 
@@ -74,7 +74,7 @@ body.light{
   width: 18px;
   height: 18px;
   color: #888;
-  pointer-events: none; /* click goes to input */
+  pointer-events: none;
 }
 
 /* nice interaction */
@@ -116,7 +116,7 @@ textarea {
 
 .button-group {
   display: flex;
-  gap: 10px; /* 👈 fixes button spacing */
+  gap: 10px;
 }
 
 button {
@@ -160,6 +160,7 @@ button {
   grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
   gap:20px;
   padding:20px;
+  display: inline-block;
 }
 
 .problem-card img{
@@ -307,3 +308,35 @@ button {
 .warning {
   color: red;
 }
+
+.search-container {
+  align-items: center;
+}
+
+.sidebar1 {
+  position: fixed;
+  top: 57px; 
+  left: 0;
+  height: calc(100vh - 80px);
+   width: 220px;
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(10px);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+.button1 {
+  margin: 5px 0;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    background: rgba(255,255,255,0.1);
+    color: white;
+    cursor: pointer;
+}
+
+.sidebar1 .active {
+  background: #2e7d32;
+}
+.sidebar1 .button1:hover { background: #43a047; }
+

@@ -1,20 +1,14 @@
-<<<<<<< HEAD
-=======
 /* =========================
    GLOBAL STATE (ONLY ONCE)
 ========================= */
->>>>>>> fb13578a46cdea072abd323554ec1c35db8e6d4e
 let user = localStorage.getItem("user");
 let problems = JSON.parse(localStorage.getItem("problems")) || [];
 let myLat = null;
 let myLng = null;
 
-<<<<<<< HEAD
-=======
 /* =========================
    THEME (ONLY ONCE)
 ========================= */
->>>>>>> fb13578a46cdea072abd323554ec1c35db8e6d4e
 function toggleTheme(){
   document.body.classList.toggle("light");
   localStorage.setItem(
@@ -27,12 +21,9 @@ if(localStorage.getItem("theme") === "true"){
   document.body.classList.add("light");
 }
 
-<<<<<<< HEAD
-=======
 /* =========================
    LOCATION BUTTON
 ========================= */
->>>>>>> fb13578a46cdea072abd323554ec1c35db8e6d4e
 function useMyLocation(){
   if(!navigator.geolocation){
     alert("Geolocation not supported!");
@@ -53,12 +44,9 @@ function useMyLocation(){
   );
 }
 
-<<<<<<< HEAD
-=======
 /* =========================
    SAVE PROBLEM
 ========================= */
->>>>>>> fb13578a46cdea072abd323554ec1c35db8e6d4e
 function saveProblem(){
   let p = {
     title: document.getElementById("title").value,
@@ -81,12 +69,9 @@ function saveProblem(){
   location.href = "explore.html";
 }
 
-<<<<<<< HEAD
-=======
 /* =========================
    MAP (ONLY IF EXISTS)
 ========================= */
->>>>>>> fb13578a46cdea072abd323554ec1c35db8e6d4e
 if(typeof L !== "undefined" && document.getElementById("map")){
 
   let map = L.map('map').setView([42.7,25.4],7);
@@ -113,12 +98,9 @@ if(typeof L !== "undefined" && document.getElementById("map")){
   });
 }
 
-<<<<<<< HEAD
-=======
 /* =========================
    RENDER
 ========================= */
->>>>>>> fb13578a46cdea072abd323554ec1c35db8e6d4e
 function render(data){
   let c = document.getElementById("cards");
   if(!c) return;
@@ -143,29 +125,13 @@ if(document.getElementById("cards")){
   render(problems);
 }
 
-<<<<<<< HEAD
-=======
 /* =========================
    DELETE
 ========================= */
->>>>>>> fb13578a46cdea072abd323554ec1c35db8e6d4e
 function deleteProblem(i){
   problems.splice(i,1);
   localStorage.setItem("problems", JSON.stringify(problems));
   render(problems);
-<<<<<<< HEAD
-}
-
-function search(){
-  let val = document.querySelector(".search")?.value.toLowerCase() || "";
-  let filtered = problems.filter(p =>
-    p.title.toLowerCase().includes(val)
-  );
-
-  render(filtered);
-}
-
-=======
 }
 
 /* =========================
@@ -183,7 +149,6 @@ function search(){
 /* =========================
    NOTIFICATION
 ========================= */
->>>>>>> fb13578a46cdea072abd323554ec1c35db8e6d4e
 function showNotif(msg){
   let n = document.getElementById("notif");
   if(!n) return;
@@ -194,12 +159,9 @@ function showNotif(msg){
   setTimeout(()=>n.classList.add("hidden"),2000);
 }
 
-<<<<<<< HEAD
-=======
 /* =========================
    PROFILE
 ========================= */
->>>>>>> fb13578a46cdea072abd323554ec1c35db8e6d4e
 if(document.getElementById("username")){
   document.getElementById("username").innerText = user;
 }
@@ -209,15 +171,6 @@ if(document.getElementById("username")){
 ========================= */
 function logout(){
   localStorage.removeItem("user");
-<<<<<<< HEAD
-  location.href = "index.html";
-}
-
-if(!user && !location.href.includes("index.html")){
-  location.href = "index.html";
-}
-
-=======
   location.href = "index.html";
 }
 
@@ -231,7 +184,6 @@ if(!user && !location.href.includes("index.html")){
 /* =========================
    PROFILE SYSTEM
 ========================= */
->>>>>>> fb13578a46cdea072abd323554ec1c35db8e6d4e
 if(document.getElementById("username")){
 
   let saved = JSON.parse(localStorage.getItem("saved")) || [];
@@ -262,12 +214,9 @@ if(document.getElementById("username")){
   if(savedCount) savedCount.innerText = saved.length;
 }
 
-<<<<<<< HEAD
-=======
 /* =========================
    PROFILE IMAGE UPLOAD
 ========================= */
->>>>>>> fb13578a46cdea072abd323554ec1c35db8e6d4e
 function uploadImage(event){
   let file = event.target.files[0];
   if(!file) return;
@@ -286,8 +235,4 @@ function uploadImage(event){
   };
 
   reader.readAsDataURL(file);
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> fb13578a46cdea072abd323554ec1c35db8e6d4e
