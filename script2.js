@@ -308,7 +308,7 @@ if (currentWidth < 40) {
         }
     }
 
-    if (currentWidth <= 0) {
+    if (currentWidth <= 25) {
         setTimeout(() => {
             alert("Report removed due to low community trust. 🛡️");
             if (marker) {
