@@ -1,60 +1,168 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>CareMap</title>
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UniHelp 🦄 | Bulgaria</title>
+    <link href="https://fonts.googleapis.com/css2?family=Shrikhand&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="style.css">
 </head>
+<body>
+    <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
 
-<body class="center">
+    <aside id="sidebar" class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">🦄 UniHelp</div>
+        </div>
 
-<div class="glass card">
-  <h1>🌍 CareMap</h1>
+        <div class="sidebar-content">
+            <p>"Don't be a horse, be a unicorn, help people out!"</p>
+            
+            <button class="side-btn btn-report" onclick="getLocationAndOpenModal()">
+                <span>📍</span> Report Issue
+            </button>
+            <button class="side-btn" onclick="openProfile()">
+                <span>👤</span> My Profile
+            </button>
+            <button class="side-btn" onclick="toggleModal('auth-modal')">
+                <span>🔑</span> Sign In
+            </button>
 
-  <p>Don’t be a horse, be a unicorn, help people out 🦄</p>
+            <hr class="divider">
+            
+            <div class="live-feed">
+                <h4 style="color: #8B934F; padding-left: 10px; margin-bottom: 10px;">Live Feed 🛰️</h4>
+                <div id="feed-container">
+                    <p style="text-align:center; font-size: 0.8rem; color: #999;">Waiting for reports...</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="sidebar-footer">
+            <p>© 2026 UniHelp Bulgaria</p>
+        </div>
+    </aside>
 
-  <p class="warning">
-  ⚠️ Моля не публикувайте сериозни проблеми, които изискват помощта на 112
-  </p>
+    <div id="map"></div>
 
-  <input id="user" placeholder="Username">
-  <input id="pass" type="password" placeholder="Password">
+    <div id="report-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="toggleModal('report-modal')">&times;</span>
+            <h2 style="color: #8B934F;">Report Problem</h2>
+            <input type="text" id="input-title" placeholder="Problem title...">
+            <textarea id="input-desc" placeholder="Describe what's happening..."></textarea>
+            <label style="font-size: 12px; color: #666; display: block; margin-top: 10px;">Upload a Photo:</label>
+            <input type="file" id="input-image" accept="image/*" style="font-size: 12px;">
+            <button class="btn-submit" onclick="submitReport()">Add to Map</button>
+        </div>
+    </div>
 
-  <button onclick="login()">Login</button>
-  <button onclick="register()">Sign Up</button>
+    <div id="auth-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="toggleModal('auth-modal')">&times;</span>
+            <h2 style="color: #8B934F;">Join UniHelp</h2>
+            <input type="email" placeholder="Email">
+            <input type="password" placeholder="Password">
+            <button class="btn-submit" onclick="simulateLogin()">Login</button>
+        </div>
+    </div>
+    <div id="volunteer-page" class="full-page-overlay">
+    <div class="donate-container">
+        <button class="close-btn" onclick="closeVolunteer()">✕</button>
+        
+        <h1 style="color: var(--olive); margin-bottom: 10px;">Become a Hero 🦄</h1>
+        <p style="color: #666;">Choose a mission and help make Bulgaria better.</p>
+
+        <div class="charity-list">
+            
+            <div class="charity-card">
+                <h3>🏠 Shelter Helper</h3>
+                <p>Help clean and walk dogs at local shelters in Sofia or Plovdiv. Perfect for weekend heroes!</p>
+                <button class="donate-link" onclick="handleMission(this, 'volunteer')">Apply Now</button>
+            </div>
+
+            <div class="charity-card">
+              <h3>🐾 Animal Rescue Sofia</h3>
+              <p>Working to end the stray dog and cat crisis in Sofia.</p>
+              <button class="donate-link" onclick="handleMission(this, 'donate')">Donate Now</button>
+            </div>
+             
+            <div class="charity-card">
+                <h3>🧹 Eco-Cleanup</h3>
+                <p>Join a weekend group to clean up Vitosha or local parks. Gear provided!</p>
+                <button class="donate-link" onclick="handleMission(this, 'volunteer')">Join Group</button>
+            </div>
+
+            </div>
+    </div>
 </div>
+    <div id="donate-page" class="full-page-overlay">
+        <div class="donate-container">
+        <button class="close-btn" onclick="closeDonate()">✕</button>
+        <h1 style="color: var(--olive);">Support Bulgaria 🇧🇬</h1>
+        
+        <div class="charity-list">
+            <div class="charity-card">
+                <h3>🐾 Animal Rescue Sofia</h3>
+                <p>Help provide food and medical care for strays in the capital.</p>
+                <button class="donate-link" onclick="handleMission(this, 'donate')">Donate 5лв</button>
+            </div>
 
-<script>
-let users = JSON.parse(localStorage.getItem("users")) || {};
+            <div class="charity-card">
+                <h3>🤝 BCause Foundation</h3>
+                <p>Supporting various social causes and entrepreneurs in Bulgaria.</p>
+                <button class="donate-link" onclick="handleMission(this, 'donate')">Donate Now</button>
+            </div>
 
-/* REGISTER */
-function register(){
-  let u = user.value;
-  let p = pass.value;
+            <div class="charity-card">
+                <h3>🚑 Bulgarian Red Cross</h3>
+                <p>Emergency response and humanitarian aid across the country.</p>
+                <button class="donate-link" onclick="handleMission(this, 'donate')">Support Aid</button>
+            </div>
 
-  if(!u || !p) return alert("Fill all fields!");
+            <div class="charity-card">
+                <h3>👶 For Our Children</h3>
+                <p>Ensuring no Bulgarian child grows up in an institution.</p>
+                <button class="donate-link" onclick="handleMission(this, 'donate')">Help a Child</button>
+            </div>
+        </div>
+    </div>
+    </div>
 
-  if(users[u]) return alert("User already exists!");
+    <div id="profile-page" class="full-page-overlay">
+        <div class="profile-container">
+        <button class="close-btn" onclick="closeProfile()">✕</button>
+        
+        <div class="profile-avatar">🦄</div>
+        <h1 id="user-name">Unihelp Hero</h1>
+        <span class="badge">Level 1: Scout</span>
 
-  users[u] = p;
-  localStorage.setItem("users", JSON.stringify(users));
-
-  alert("Account created!");
-}
-
-/* LOGIN */
-function login(){
-  let u = user.value;
-  let p = pass.value;
-
-  if(users[u] && users[u] === p){
-    localStorage.setItem("user", u);
-    location.href = "map.html";
-  } else {
-    alert("Wrong username or password!");
-  }
-}
-</script>
-
+        <div class="profile-stats">
+            <div class="stat-card">
+                <h3 id="report-count">0</h3>
+                <p>Reports Made</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="solved-count">0</h3>
+                <p>Solved/Helped</p>
+            </div>
+        </div>
+        
+        <button class="side-btn" style="margin-top: 30px; background: #ff4757; color: white; width: 100%;" onclick="logout()">Log Out</button>
+    </div>
+    </div>
+    <div id="toast">Report Added! 🦄</div>
+    <div id="reward-modal" class="modal">
+    <div class="modal-content" style="text-align: center; border-color: #FFD700 !important;">
+        <h1 style="font-size: 3rem; margin: 0;">🎁</h1>
+        <h2 style="color: var(--mauve);">Level Up Reward!</h2>
+        <p id="reward-text">You've unlocked the <strong>Silver Guardian</strong> status!</p>
+        <div id="reward-badge" style="font-size: 2rem; margin: 20px 0;">🛡️</div>
+        <button class="btn-submit" onclick="toggleModal('reward-modal')">Claim Reward</button>
+    </div>
+</div>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
