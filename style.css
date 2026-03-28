@@ -559,3 +559,15 @@ button { cursor: pointer; border: none;}
 @keyframes fall {
     to { transform: translateY(100vh) rotate(360deg); }
 }
+.lang-toggle {
+    transition: all 0.3s ease;
+    border: 2px solid var(--mauve) !important;
+    color: var(--dark);
+    font-weight: bold;
+}
+
+.lang-toggle:hover {
+    background: var(--mauve) !important;
+    color: white;
+    transform: scale(1.05);
+}

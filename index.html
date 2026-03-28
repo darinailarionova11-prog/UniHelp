@@ -6,7 +6,7 @@
     <title>UniHelp 🦄 | Bulgaria</title>
     <link href="https://fonts.googleapis.com/css2?family=Shrikhand&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style2.css">
 </head>
 <body>
     <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
@@ -14,27 +14,28 @@
     <aside id="sidebar" class="sidebar">
         <div class="sidebar-header">
             <div class="logo">🦄 UniHelp</div>
+            <button class="lang-toggle" onclick="toggleLanguage()">🇧🇬 BG / 🇬🇧 EN</button>
         </div>
 
         <div class="sidebar-content">
-            <p>"Don't be a horse, be a unicorn, help people out!"</p>
+            <p data-i18n="slogan">"Don't be a horse, be a unicorn, help people out!"</p>
             
             <button class="side-btn btn-report" onclick="getLocationAndOpenModal()">
-                <span>📍</span> Report Issue
+                <span data-i18n="reportBtn">📍 Report Issue</span>
             </button>
             <button class="side-btn" onclick="openProfile()">
-                <span>👤</span> My Profile
+                <span data-i18n="profileBtn">👤 My Profile</span>
             </button>
             <button class="side-btn" onclick="toggleModal('auth-modal')">
-                <span>🔑</span> Sign In
+                <span data-i18n="signInBtn">🔑 Sign In</span>
             </button>
 
             <hr class="divider">
             
             <div class="live-feed">
-                <h4 style="color: #8B934F; padding-left: 10px; margin-bottom: 10px;">Live Feed 🛰️</h4>
+                <h4 data-i18n="liveFeed" style="color: #8B934F; padding-left: 10px; margin-bottom: 10px;">Live Feed 🛰️</h4>
                 <div id="feed-container">
-                    <p style="text-align:center; font-size: 0.8rem; color: #999;">Waiting for reports...</p>
+                    <p data-i18n="waiting" style="text-align:center; font-size: 0.8rem; color: #999;">Waiting for reports...</p>
                 </div>
             </div>
         </div>
@@ -71,30 +72,30 @@
     <div class="donate-container">
         <button class="close-btn" onclick="closeVolunteer()">✕</button>
         
-        <h1 style="color: var(--olive); margin-bottom: 10px;">Become a Hero 🦄</h1>
+        <h1 data-i18n="volunteerTitle" style="color: var(--olive); margin-bottom: 10px;">Become a Hero 🦄</h1>
         <p style="color: #666;">Choose a mission and help make Bulgaria better.</p>
 
         <div class="charity-list">
             
-            <div class="charity-card">
+            <div class="charity-card"> 
                 <h3>🏠 Shelter Helper</h3>
                 <p>Help clean and walk dogs at local shelters in Sofia or Plovdiv. Perfect for weekend heroes!</p>
-                <button class="donate-link" onclick="handleMission(this, 'volunteer')">Apply Now</button>
+                <button class="donate-link" data-i18n="applyNow" onclick="handleMission(this, 'volunteer')">Apply Now</button>
             </div>
 
             <div class="charity-card">
               <h3>🐾 Animal Rescue Sofia</h3>
               <p>Working to end the stray dog and cat crisis in Sofia.</p>
-              <button class="donate-link" onclick="handleMission(this, 'donate')">Donate Now</button>
+              <button class="donate-link" data-i18n="donateNow" onclick="handleMission(this, 'donate')">Donate Now</button>
             </div>
              
             <div class="charity-card">
                 <h3>🧹 Eco-Cleanup</h3>
                 <p>Join a weekend group to clean up Vitosha or local parks. Gear provided!</p>
-                <button class="donate-link" onclick="handleMission(this, 'volunteer')">Join Group</button>
+                <button class="donate-link" data-i18n="joinGroup" onclick="handleMission(this, 'volunteer')">Join Group</button>
             </div>
 
-            </div>
+        </div>
     </div>
 </div>
     <div id="donate-page" class="full-page-overlay">
@@ -163,6 +164,6 @@
     </div>
 </div>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="script.js"></script>
+    <script src="script2.js"></script>
 </body>
 </html>

@@ -1,3 +1,53 @@
+let currentLang = localStorage.getItem('unihelp_lang') || 'en';
+
+const translations = {
+    en: {
+        logo: "🦄 UniHelp",
+        slogan: '"Don\'t be a horse, be a unicorn, help people out!"',
+        reportBtn: "📍 Report Issue",
+        profileBtn: "👤 My Profile",
+        signInBtn: "🔑 Sign In",
+        liveFeed: "Live Feed 🛰️",
+        waiting: "Waiting for reports...",
+        reportTitle: "Report Problem",
+        addMap: "Add to Map",
+        placeholderTitle: "Problem title...",
+        placeholderDesc: "Describe what's happening...",
+        profileName: "Unihelp Hero",
+        reportsMade: "Reports Made",
+        solvedHelped: "Solved/Helped",
+        logoutBtn: "Log Out",
+        volunteerTitle: "Become a Hero 🦄",
+        donateTitle: "Support Bulgaria 🇧🇬",
+        applyNow: "Apply Now",
+        donateNow: "Donate Now",
+        joinGroup: "Join Group",
+        supportAid: "Support Aid"
+    },
+    bg: {
+        logo: "🦄 ЮниХелп",
+        slogan: '"Не бъди кон, бъди еднорог, помагай на хората!"',
+        reportBtn: "📍 Докладвай",
+        profileBtn: "👤 Моят Профил",
+        signInBtn: "🔑 Вход",
+        liveFeed: "На живо 🛰️",
+        waiting: "Чакаме сигнали...",
+        reportTitle: "Докладвай проблем",
+        addMap: "Добави на картата",
+        placeholderTitle: "Заглавие...",
+        placeholderDesc: "Опиши какво се случва...",
+        profileName: "ЮниХелп Герой",
+        reportsMade: "Направени сигнали",
+        solvedHelped: "Решени/Помогнато",
+        logoutBtn: "Изход",
+        volunteerTitle: "Стани Герой 🦄",
+        donateTitle: "Подкрепи България 🇧🇬",
+        applyNow: "Кандидатствай",
+        donateNow: "Дари Сега",
+        joinGroup: "Присъедини се",
+        supportAid: "Подкрепи"
+    }
+};
 let reportsCreated = 0;
 let reportsSolved = 0;
 let isLoggedIn = false;
@@ -100,26 +150,30 @@ function addProblem(prob) {
     const confidence = 100;
     const imageTag = prob.img ? `<img src="${prob.img}" style="width:100%; border-radius:10px; margin-top:10px; max-height:150px; object-fit:cover;">` : "";
 
-    const marker = L.marker([prob.lat, prob.lng], { 
-        icon: uniIcon 
-    }).addTo(map);
-
-    if (marker.getElement()) {
-        L.DomUtil.addClass(marker.getElement(), 'red-dot');
-    }
-
+    const marker = L.marker([prob.lat, prob.lng], { icon: uniIcon }).addTo(map);
     markers[prob.id] = marker;
 
     const isOwner = (prob.ownerId === myId);
     
+    // --- TRANSLATED DELETE BUTTON ---
+    const deleteBtnText = (currentLang === 'en') ? "🗑️ Delete My Report" : "🗑️ Изтрий сигнала";
     const deleteBtn = isOwner ? `
         <div style="margin-top: 10px; border-top: 1px dashed #ccc; padding-top: 10px;">
             <button class="action-btn" 
                     style="flex:1; width:100%; background: #ff4757; font-family: 'Shrikhand', cursive;" 
                     onclick="deleteProblem(${prob.id})">
-                🗑️ Delete My Report
+                ${deleteBtnText}
             </button>
         </div>` : "";
+
+    // --- TRANSLATED POPUP LABELS ---
+    const labels = {
+        trust: (currentLang === 'en') ? "Trust Score" : "Доверие",
+        real: (currentLang === 'en') ? "✅ Real" : "✅ Истинско",
+        fake: (currentLang === 'en') ? "❌ Fake" : "❌ Фалшиво",
+        volunteer: (currentLang === 'en') ? "Volunteer" : "Доброволец",
+        donate: (currentLang === 'en') ? "Donate" : "Дари"
+    };
 
     const popupContent = `
         <div id="popup-${prob.id}" style="text-align:center; min-width: 200px; font-family: 'Shrikhand', cursive;">
@@ -127,7 +181,7 @@ function addProblem(prob) {
             
             <div style="margin: 10px 0; font-family: sans-serif;">
                 <div style="display: flex; justify-content: space-between; font-size: 10px; margin-bottom: 3px;">
-                    <span>Trust Score</span>
+                    <span>${labels.trust}</span>
                     <span class="trust-score-percent">${confidence}%</span>
                 </div>
                 <div class="confidence-bg">
@@ -139,13 +193,13 @@ function addProblem(prob) {
             ${imageTag}
 
             <div style="display:flex; gap:5px; margin-top:10px;">
-                <button class="vote-btn" style="flex:1" onclick="handleVote(${prob.id}, true)">✅ Real</button>
-                <button class="vote-btn" style="flex:1" onclick="handleVote(${prob.id}, false)">❌ Fake</button>
+                <button class="vote-btn" style="flex:1" onclick="handleVote(${prob.id}, true)">${labels.real}</button>
+                <button class="vote-btn" style="flex:1" onclick="handleVote(${prob.id}, false)">${labels.fake}</button>
             </div>
 
             <div style="display:flex; gap:5px; margin-top:10px;">
-                <button class="action-btn" style="flex:1" onclick="protectedAction('Volunteer')">Volunteer</button>
-                <button class="action-btn" style="flex:1" onclick="protectedAction('Donate')">Donate</button>
+                <button class="action-btn" style="flex:1" onclick="protectedAction('Volunteer')">${labels.volunteer}</button>
+                <button class="action-btn" style="flex:1" onclick="protectedAction('Donate')">${labels.donate}</button>
             </div>
 
             ${deleteBtn}
@@ -153,10 +207,11 @@ function addProblem(prob) {
     `;
 
     marker.bindPopup(popupContent);
+    
     setTimeout(() => {
-    if (marker.getElement()) {
-        L.DomUtil.addClass(marker.getElement(), 'red-dot');
-    }
+        if (marker.getElement()) {
+            L.DomUtil.addClass(marker.getElement(), 'red-dot');
+        }
     }, 50);
 
     map.flyTo([prob.lat, prob.lng], 15);
@@ -253,7 +308,7 @@ if (currentWidth < 40) {
         }
     }
 
-    if (currentWidth <= 0) {
+    if (currentWidth <= 25) {
         setTimeout(() => {
             alert("Report removed due to low community trust. 🛡️");
             if (marker) {
@@ -320,29 +375,38 @@ function handleMission(buttonElement, type) {
 }
 function updateProfileUI() {
     const solvedDisplay = document.getElementById('solved-count');
-    if(solvedDisplay) solvedDisplay.innerText = reportsSolved;
+    if (solvedDisplay) solvedDisplay.innerText = reportsSolved;
 
     const currentLevel = Math.floor(reportsSolved / 10) + 1;
-    
     const badge = document.querySelector('.badge');
+    
     if (badge) {
-        if (currentLevel === 1) {
-            badge.innerText = "Level 1: Scout 🛡️";
-            badge.style.background = "var(--mauve)";
-        } else if (currentLevel === 2) {
-            badge.innerText = "Level 2: Guardian ⚔️";
-            badge.style.background = "#7A89C2"; 
-        } else if (currentLevel >= 3) {
-            badge.innerText = `Level ${currentLevel}: Bulgarian Legend 🇧🇬`;
-            badge.style.background = "#333"; 
+        let badgeText = "";
+        let bgColor = "";
+
+        // 1. Set the TEXT based on Language
+        if (currentLang === 'en') {
+            if (currentLevel === 1) badgeText = "Level 1: Scout 🛡️";
+            else if (currentLevel === 2) badgeText = "Level 2: Guardian ⚔️";
+            else badgeText = `Level ${currentLevel}: Legend 🇧🇬`;
+        } else {
+            if (currentLevel === 1) badgeText = "Ниво 1: Скаут 🛡️";
+            else if (currentLevel === 2) badgeText = "Ниво 2: Пазител ⚔️";
+            else badgeText = `Ниво ${currentLevel}: Легенда 🇧🇬`;
         }
+
+        // 2. Set the COLOR based on Level
+        if (currentLevel === 1) bgColor = "var(--mauve)";
+        else if (currentLevel === 2) bgColor = "#7A89C2"; 
+        else bgColor = "#333"; 
+
+        badge.innerText = badgeText;
+        badge.style.background = bgColor;
     }
 
     const progressPercent = (reportsSolved % 10) * 10; 
     const progressBar = document.querySelector('.progress-bar-fill');
-    if (progressBar) {
-        progressBar.style.width = progressPercent + "%";
-    }
+    if (progressBar) progressBar.style.width = progressPercent + "%";
 }
 function simulateLogin() {
     const email = document.querySelector('#auth-modal input[type="email"]').value;
@@ -416,3 +480,37 @@ function deleteProblem(id) {
         }
     }
 }
+function toggleLanguage() {
+    currentLang = (currentLang === 'en') ? 'bg' : 'en';
+    localStorage.setItem('unihelp_lang', currentLang);
+    applyTranslations();
+}
+
+function applyTranslations() {
+    const langData = translations[currentLang];
+    
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (langData[key]) el.innerText = langData[key];
+    });
+
+    const titleInput = document.getElementById('input-title');
+    const descInput = document.getElementById('input-desc');
+    if (titleInput) titleInput.placeholder = langData.placeholderTitle;
+    if (descInput) descInput.placeholder = langData.placeholderDesc;
+
+    const modalHeader = document.querySelector('#report-modal h2');
+    const submitBtn = document.querySelector('#report-modal .btn-submit');
+    if (modalHeader) modalHeader.innerText = langData.reportTitle;
+    if (submitBtn) submitBtn.innerText = langData.addMap;
+
+    document.getElementById('input-title').placeholder = langData.placeholderTitle;
+    document.getElementById('input-desc').placeholder = langData.placeholderDesc;
+    
+    document.querySelector('#report-modal h2').innerText = langData.reportTitle;
+    document.querySelector('#report-modal .btn-submit').innerText = langData.addMap;
+    updateProfileUI();
+    map.closePopup();
+}
+
+applyTranslations();
